@@ -153,7 +153,12 @@ func slice():
 	remove_child(dead_body)
 	get_parent().add_child(dead_body)
 	dead_body.position = position
-	queue_free()
 	state = PlayerStates.Dead
+	var timer = Timer.new()
+	timer.wait_time = 2
+	timer.connect("timeout", get_tree(), "reload_current_scene")
+	get_parent().add_child(timer)
+	timer.start()
+	queue_free()
 
 
