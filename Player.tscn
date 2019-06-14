@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Textures/feet_shadow.png" type="Texture" id=2]
-[ext_resource path="res://Textures/NinjaSheet.png" type="Texture" id=3]
+[ext_resource path="res://Textures/NinjaWithSeparates.png" type="Texture" id=3]
 [ext_resource path="res://Textures/Arrow.png" type="Texture" id=4]
+[ext_resource path="res://DeadBody.tscn" type="PackedScene" id=5]
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 3 )
@@ -105,6 +106,7 @@ position = Vector2( 0.611725, 4.68986 )
 shape = SubResource( 1 )
 
 [node name="Aim" type="Position2D" parent="."]
+editor/display_folded = true
 
 [node name="Arrow" type="Sprite" parent="Aim"]
 position = Vector2( 60.3564, 2.44688 )
@@ -119,6 +121,7 @@ collision_mask = 2
 shape = SubResource( 2 )
 
 [node name="GetHitArea" type="Area2D" parent="."]
+editor/display_folded = true
 collision_layer = 2
 collision_mask = 2
 
@@ -132,5 +135,8 @@ anims/Charge = SubResource( 5 )
 anims/Idle = SubResource( 6 )
 anims/Slice = SubResource( 8 )
 anims/Walk = SubResource( 7 )
+
+[node name="DeadBody" parent="." instance=ExtResource( 5 )]
+scale = Vector2( 2, 2 )
 
 [connection signal="body_entered" from="Aim/Arrow/DamageArea" to="." method="_on_DamageArea_body_entered"]
