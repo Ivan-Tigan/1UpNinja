@@ -14,6 +14,8 @@ onready var dead_body = $DeadBody
 onready var damage_area = $Aim/Arrow/DamageArea
 onready var anim = $AnimationPlayer
 
+onready var yell_sound = load('res://Sounds/NinjaShout.wav')
+onready var yell_audio : = AudioStreamPlayer.new()
 
 var h
 var v
@@ -27,12 +29,12 @@ var dash_duration = 0.1
 var dash_timer = 8
 var dash_speed = 16
 
-var charge_speed = 8
+var charge_speed = 6
 var slice_timer
 var charge_timer = 0
-var min_charge_threshold = 0.15
+var min_charge_threshold = 0.125
 var min_charge = 0
-var max_charge = 2
+var max_charge = 1.5
 
 
 enum PlayerStates {
@@ -46,6 +48,8 @@ enum PlayerStates {
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	yell_audio.stream = yell_sound
+	add_child(yell_audio)
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -82,9 +86,11 @@ func _physics_process(delta: float) -> void:
 			charge_timer = 0
 			
 		else:
-			
 			velocity = Vector2(h, v).normalized() * speed * charge_speed
 			velocity = move_and_slide(velocity)
+			if velocity.length() > 200 and not yell_audio.playing:
+				yell_audio.pitch_scale = rand_range(1, 1.3)
+				yell_audio.play()
 		#print(velocity.length())
 		
 	else:
@@ -150,8 +156,8 @@ func _on_DamageArea_body_entered(body: PhysicsBody2D) -> void:
 	
 func slice():
 	dead_body.explode()
-	remove_child(dead_body)
-	get_parent().add_child(dead_body)
+	call_deferred("remove_child", dead_body)
+	get_parent().call_deferred("add_child", dead_body)
 	dead_body.position = position
 	state = PlayerStates.Dead
 	var timer = Timer.new()

@@ -14,6 +14,7 @@ var duration = 0.6
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	randomize()
 	head.visible = false
 	body.visible = false
 	pass # Replace with function body.
@@ -27,13 +28,13 @@ func _process(delta: float) -> void:
 			head.rotate(deg2rad(360 * 5 * delta))
 #	pass
 func explode():
+	Globals.cam.shake()
 	var audio = AudioStreamPlayer.new()
 	audio.stream = sound
 	add_child(audio)
 	audio.play()
 	head.visible = true
 	body.visible = true
-	randomize()
 	head_velocity = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized() * 300
 	kin_body.rotate(deg2rad(-90))
 	pass

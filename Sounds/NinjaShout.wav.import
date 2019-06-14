@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/NinjaShout.wav-551d2d16d827595aa907507c88ce766e.sample"
+
+[deps]
+
+source_file="res://Sounds/NinjaShout.wav"
+dest_files=[ "res://.import/NinjaShout.wav-551d2d16d827595aa907507c88ce766e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
