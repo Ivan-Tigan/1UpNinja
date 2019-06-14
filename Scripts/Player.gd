@@ -35,9 +35,9 @@ func _physics_process(delta: float) -> void:
 	
 	if state == PlayerStates.Slicing:
 		slice_timer += delta
-		velocity = Vector2(h, v).normalized() * speed * 6
+		velocity = Vector2(h, v).normalized() * speed * 7
 		velocity = move_and_slide(velocity)
-		if slice_timer >= 0.15:
+		if slice_timer >= 0.1:
 			state = PlayerStates.Moving
 	else:
 		slice_timer = 0
@@ -53,8 +53,6 @@ func _physics_process(delta: float) -> void:
 		$Aim.look_at(position + Vector2(h, v).normalized())
 	else:
 		$Aim.visible = false
-		
-	
 		
 		
 	sprite.flip_h = false if h > 0 else (true if h < 0 else sprite.flip_h)
