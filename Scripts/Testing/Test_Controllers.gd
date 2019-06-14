@@ -10,6 +10,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	print(Input.get_joy_axis(0, 1))
+	print(Input.get_action_strength("right1") - Input.get_action_strength("left1"))
 		
 	pass
