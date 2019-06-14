@@ -6,7 +6,7 @@ extends KinematicBody2D
 # var b: String = "text"
 export var player_index = 1
 var velocity
-export var speed = 300
+export var speed = 250
 var state = PlayerStates.Moving
 
 onready var sprite = $Sprite
@@ -18,12 +18,21 @@ onready var anim = $AnimationPlayer
 var h
 var v
 
-var charge_speed = 8
+var dash_cooldown_timer = 1.5
+var dash_cooldown = 1.5
+var dash_vector := Vector2(0,0)
+var h_dash
+var v_dash
+var dash_duration = 0.1
+var dash_timer = 8
+var dash_speed = 16
 
+var charge_speed = 8
 var slice_timer
 var charge_timer = 0
-var min_charge = 0.3
-var max_charge = 3
+var min_charge_threshold = 0.15
+var min_charge = 0
+var max_charge = 2
 
 
 enum PlayerStates {
@@ -31,6 +40,7 @@ enum PlayerStates {
 	Moving,
 	Charging,
 	Slicing,
+	Dashing,
 	Dead
 }
 
@@ -46,22 +56,40 @@ func _physics_process(delta: float) -> void:
 	if state == PlayerStates.Dead:
 		print("Dead")
 		return
+	
+	if state == PlayerStates.Dashing:
+		dash_timer += delta
+		charge_timer = 0
+		if dash_timer <= dash_duration:
+			velocity = dash_vector * speed * charge_speed
+			velocity = move_and_slide(velocity)
+		else:
+			state = PlayerStates.Moving
+			dash_timer = 0
+			dash_cooldown_timer = 0
+	else:
+		dash_cooldown_timer += delta
 
+	
 	if state == PlayerStates.Slicing:
 		anim.play("Slice")
 		damage_area.monitoring = true
 		slice_timer += delta
-		velocity = Vector2(h, v).normalized() * speed * charge_speed
-		velocity = move_and_slide(velocity)
-		print(slice_timer)
-		if slice_timer >= (clamp(charge_timer, min_charge, max_charge) / max_charge) * 0.2:
+		if slice_timer >= (clamp(charge_timer - min_charge_threshold, min_charge, max_charge) / max_charge) * 0.4:
 			state = PlayerStates.Moving
 			charge_timer = 0
+		else:
+			velocity = Vector2(h, v).normalized() * speed * charge_speed
+			velocity = move_and_slide(velocity)
+		#print(velocity.length())
+		
 	else:
 		damage_area.monitoring = false
 		slice_timer = 0
 		h = Input.get_action_strength("right" + str(player_index)) - Input.get_action_strength("left" + str(player_index))
 		v = Input.get_action_strength("down" + str(player_index)) - Input.get_action_strength("up" + str(player_index))
+		h_dash = Input.get_action_strength("right_dash" + str(player_index)) - Input.get_action_strength("left_dash" + str(player_index))
+		v_dash = Input.get_action_strength("down_dash" + str(player_index)) - Input.get_action_strength("up_dash" + str(player_index))
 		
 		
 		
@@ -94,11 +122,18 @@ func _physics_process(delta: float) -> void:
 		else:
 			state = PlayerStates.Moving
 	
-	if Input.is_action_pressed("charge" + str(player_index)):
+	
+	
+	if not state == PlayerStates.Dashing and not state == PlayerStates.Slicing and Input.is_action_pressed("charge" + str(player_index)):
 		state = PlayerStates.Charging
 			
-	if Input.is_action_just_released("charge" + str(player_index)):
+	if not state == PlayerStates.Dashing and state == PlayerStates.Charging and Input.is_action_just_released("charge" + str(player_index)):
 		state = PlayerStates.Slicing
+	
+	dash_vector = Vector2(h_dash, v_dash)
+	if dash_cooldown_timer >= dash_cooldown and not state == PlayerStates.Slicing and not state == PlayerStates.Charging and dash_vector.length() > 0.8:
+		dash_vector = dash_vector.normalized()
+		state = PlayerStates.Dashing
 	
 	
 
@@ -115,4 +150,7 @@ func slice():
 	dead_body.position = position
 	queue_free()
 	state = PlayerStates.Dead
-	
+func _draw(): 
+	draw_line(Vector2(0,0), Vector2(50, 50), Color(255, 0, 0), 1)
+
+
