@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+
 # Declare member variables here. Examples:
 # var a: int = 2
 # var b: String = "text"
@@ -7,16 +8,25 @@ export var player_index = 1
 var velocity
 export var speed = 300
 var state = PlayerStates.Moving
-onready var sprite = $Sprite
 
+onready var sprite = $Sprite
+onready var damage_area = $Aim/Arrow/DamageArea
+onready var anim = $AnimationPlayer
 
 
 var h
 var v
 
+var charge_speed = 8
+
 var slice_timer
+var charge_timer = 0
+var min_charge = 0.3
+var max_charge = 3
+
 
 enum PlayerStates {
+	Idle,
 	Moving,
 	Charging,
 	Slicing,
@@ -32,23 +42,40 @@ func _ready() -> void:
 #	pass
 
 func _physics_process(delta: float) -> void:
-	
+	if state == PlayerStates.Dead:
+		print("Dead")
+		return
+
 	if state == PlayerStates.Slicing:
+		anim.play("Slice")
+		damage_area.monitoring = true
 		slice_timer += delta
-		velocity = Vector2(h, v).normalized() * speed * 7
+		velocity = Vector2(h, v).normalized() * speed * charge_speed
 		velocity = move_and_slide(velocity)
-		if slice_timer >= 0.1:
+		print(slice_timer)
+		if slice_timer >= (clamp(charge_timer, min_charge, max_charge) / max_charge) * 0.2:
 			state = PlayerStates.Moving
+			charge_timer = 0
 	else:
+		damage_area.monitoring = false
 		slice_timer = 0
 		h = Input.get_action_strength("right" + str(player_index)) - Input.get_action_strength("left" + str(player_index))
 		v = Input.get_action_strength("down" + str(player_index)) - Input.get_action_strength("up" + str(player_index))
-	
+		
+		
+		
+	if state == PlayerStates.Idle:
+		anim.play("Idle")
+		pass
+		
 	if state == PlayerStates.Moving:
+		anim.play("Walk")
 		velocity = Vector2(h, v).normalized() * speed
 		velocity = move_and_slide(velocity)
 		
 	if state == PlayerStates.Charging:
+		anim.play("Charge")
+		charge_timer += delta
 		$Aim.visible = true
 		$Aim.look_at(position + Vector2(h, v).normalized())
 	else:
@@ -57,8 +84,27 @@ func _physics_process(delta: float) -> void:
 		
 	sprite.flip_h = false if h > 0 else (true if h < 0 else sprite.flip_h)
 	
+	
+	
+	if not state == PlayerStates.Charging and not state == PlayerStates.Slicing:
+		if h == 0 and v == 0:
+			state = PlayerStates.Idle
+		else:
+			state = PlayerStates.Moving
+	
 	if Input.is_action_pressed("charge" + str(player_index)):
 		state = PlayerStates.Charging
-		
+			
 	if Input.is_action_just_released("charge" + str(player_index)):
 		state = PlayerStates.Slicing
+	
+	
+
+
+func _on_DamageArea_body_entered(body: PhysicsBody2D) -> void:
+	if body.has_method("slice"):
+		body.slice()
+	pass # Replace with function body.
+	
+func slice():
+	state = PlayerStates.Dead
