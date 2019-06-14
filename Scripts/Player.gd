@@ -13,6 +13,7 @@ export var speed = 300
 var state = PlayerStates.Moving
 
 onready var sprite = $Sprite
+onready var dead_body = $DeadBody
 onready var damage_area = $Aim/Arrow/DamageArea
 onready var anim = $AnimationPlayer
 
@@ -96,7 +97,8 @@ func _physics_process(delta: float) -> void:
 		
 		
 	sprite.flip_h = false if h > 0 else (true if h < 0 else sprite.flip_h)
-	
+	dead_body.head.flip_h = sprite.flip_h
+	dead_body.body.flip_h = sprite.flip_h
 	
 	
 	if not state == PlayerStates.Charging and not state == PlayerStates.Slicing:
@@ -123,5 +125,14 @@ func _on_DamageArea_body_entered(body: PhysicsBody2D) -> void:
 	pass # Replace with function body.
 	
 func slice():
+	dead_body.explode()
+	remove_child(dead_body)
+	get_parent().add_child(dead_body)
+	dead_body.position = position
+	queue_free()
 	state = PlayerStates.Dead
+<<<<<<< HEAD
 >>>>>>> bd17012c6f9cbcca69dd571ee4174abcc413ecaa
+=======
+	
+>>>>>>> 66437fb6b6be2679abf2db7bd75cde3c819c8412

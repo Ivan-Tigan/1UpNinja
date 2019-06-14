@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scripts/Testing/DeadBody.gd" type="Script" id=1]
+[ext_resource path="res://Textures/NinjaWithSeparates.png" type="Texture" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 48, 48, 48 )
+
+[sub_resource type="CircleShape2D" id=3]
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 96, 48, 48 )
+
+[sub_resource type="CircleShape2D" id=4]
+
+[node name="DeadBody" type="StaticBody2D"]
+script = ExtResource( 1 )
+
+[node name="KinematicHead" type="KinematicBody2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Head" type="Sprite" parent="KinematicHead"]
+position = Vector2( -0.794403, -8.3415 )
+texture = SubResource( 1 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="KinematicHead/Head"]
+position = Vector2( 1.04164, 11.8747 )
+amount = 13
+lifetime = 0.5
+emission_shape = 2
+emission_rect_extents = Vector2( 5, 1 )
+color = Color( 0.964706, 0.145098, 0.145098, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicHead"]
+position = Vector2( 0, -5.561 )
+shape = SubResource( 3 )
+
+[node name="KinematicBody" type="KinematicBody2D" parent="."]
+position = Vector2( 0, 22.0663 )
+collision_layer = 8
+collision_mask = 0
+
+[node name="Body" type="Sprite" parent="KinematicBody"]
+position = Vector2( 0, -21.6585 )
+texture = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody"]
+position = Vector2( 0, -8.48078 )
+shape = SubResource( 4 )
+
