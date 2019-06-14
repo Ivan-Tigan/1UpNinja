@@ -7,6 +7,7 @@ onready var kin_head = $KinematicHead
 onready var kin_body = $KinematicBody
 onready var head : Sprite = $KinematicHead/Head
 onready var body : Sprite = $KinematicBody/Body
+onready var sound : AudioStream = load("res://Sounds/Gore.wav")
 var head_velocity := Vector2(0, 0)
 var timer = 0
 var duration = 0.6
@@ -26,6 +27,10 @@ func _process(delta: float) -> void:
 			head.rotate(deg2rad(360 * 5 * delta))
 #	pass
 func explode():
+	var audio = AudioStreamPlayer.new()
+	audio.stream = sound
+	add_child(audio)
+	audio.play()
 	head.visible = true
 	body.visible = true
 	randomize()

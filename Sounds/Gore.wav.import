@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Gore.wav-35ad10c4459c78d478847d6e3825065b.sample"
+
+[deps]
+
+source_file="res://Sounds/Gore.wav"
+dest_files=[ "res://.import/Gore.wav-35ad10c4459c78d478847d6e3825065b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
