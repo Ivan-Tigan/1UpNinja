@@ -15,6 +15,8 @@ var duration = 0.6
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
+	head.texture = head.texture.duplicate(true)
+	body.texture = body.texture.duplicate(true)
 	head.visible = false
 	body.visible = false
 	pass # Replace with function body.
@@ -38,3 +40,9 @@ func explode():
 	head_velocity = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized() * 300
 	kin_body.rotate(deg2rad(-90))
 	pass
+	
+func set_atlas(atlas):
+	head.texture = head.texture.duplicate(true)
+	body.texture = body.texture.duplicate(true)
+	head.texture.atlas = atlas.atlas.duplicate(true)
+	body.texture.atlas = atlas.atlas.duplicate(true)

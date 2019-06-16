@@ -1,16 +1,20 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Testing/DeadBody.gd" type="Script" id=1]
-[ext_resource path="res://Textures/Ninja3.png" type="Texture" id=2]
+[ext_resource path="res://Textures/sheet_ninja_blue.png" type="Texture" id=2]
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=9]
+resource_local_to_scene = true
 atlas = ExtResource( 2 )
 region = Rect2( 0, 48, 48, 48 )
 
 [sub_resource type="CircleShape2D" id=2]
 
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 2 )
+[sub_resource type="StreamTexture" id=11]
+load_path = "res://.import/sheet_ninja_red.png-263da105d227fd971fbce8956d0e7424.stex"
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = SubResource( 11 )
 region = Rect2( 192, 96, 48, 48 )
 
 [sub_resource type="CircleShape2D" id=4]
@@ -26,7 +30,7 @@ collision_mask = 0
 
 [node name="Head" type="Sprite" parent="KinematicHead"]
 position = Vector2( -0.794403, -8.3415 )
-texture = SubResource( 1 )
+texture = SubResource( 9 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="KinematicHead/Head"]
 position = Vector2( 1.04164, 11.8747 )
@@ -55,7 +59,7 @@ collision_mask = 0
 
 [node name="Body" type="Sprite" parent="KinematicBody"]
 position = Vector2( 0, -21.6585 )
-texture = SubResource( 3 )
+texture = SubResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody"]
 position = Vector2( 0, -8.48078 )

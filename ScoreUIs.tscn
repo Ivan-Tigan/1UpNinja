@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Score.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Textures/BlueStarAnimatedTexture.tres" type="Texture" id=2]
+[ext_resource path="res://Textures/RedStarAnimatedTexture.tres" type="Texture" id=3]
+
+[node name="Control" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Score" parent="." instance=ExtResource( 1 )]
+margin_left = 145.758
+margin_top = 528.0
+margin_right = 145.758
+margin_bottom = 528.0
+star_texture = ExtResource( 2 )
+
+[node name="Score2" parent="." instance=ExtResource( 1 )]
+margin_left = 856.091
+margin_top = 30.4333
+margin_right = 856.091
+margin_bottom = 30.4333
+rect_scale = Vector2( -1, 1 )
+player_index = 2
+star_texture = ExtResource( 3 )
+

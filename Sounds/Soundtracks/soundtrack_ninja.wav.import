@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/soundtrack_ninja.wav-e79b6b2328eb75f7524d888b4ac5f9ed.sample"
+
+[deps]
+
+source_file="res://Sounds/Soundtracks/soundtrack_ninja.wav"
+dest_files=[ "res://.import/soundtrack_ninja.wav-e79b6b2328eb75f7524d888b4ac5f9ed.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=true
+compress/mode=0

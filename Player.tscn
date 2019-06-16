@@ -1,22 +1,88 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://Textures/feet_shadow.png" type="Texture" id=2]
-[ext_resource path="res://Textures/Ninja3.png" type="Texture" id=3]
-[ext_resource path="res://Textures/Arrow.png" type="Texture" id=4]
-[ext_resource path="res://DeadBody.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Textures/Ninja.png" type="Texture" id=2]
+[ext_resource path="res://Textures/feet_shadow.png" type="Texture" id=3]
+[ext_resource path="res://Textures/sheet_ninja_blue.png" type="Texture" id=4]
+[ext_resource path="res://Textures/Arrow.png" type="Texture" id=5]
+[ext_resource path="res://DeadBody.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Sounds/NinjaShout.wav" type="AudioStream" id=7]
+[ext_resource path="res://Sounds/Fast-swooshing-sfx.wav" type="AudioStream" id=8]
 
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 240, 192 )
+[sub_resource type="Curve" id=15]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.968661, 0.5088 ), 0.0388339, 0.0388339, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="Gradient" id=12]
+colors = PoolColorArray( 1, 1, 1, 0.513726, 0, 0, 0, 0.0392157 )
+
+[sub_resource type="Curve" id=14]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.4824 ), 0.10326, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=13]
+colors = PoolColorArray( 0.945098, 1, 0, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Animation" id=16]
+resource_name = "Bounce"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.9, 1 ), Vector2( 1.1, 1 ), Vector2( 0.9, 1 ) ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "BounceCharging"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.75, 0.95 ), Vector2( 1.25, 1.05 ), Vector2( 0.75, 0.95 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "Idle"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="CapsuleShape2D" id=2]
 radius = 18.6676
 height = 31.649
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 
-[sub_resource type="CapsuleShape2D" id=3]
+[sub_resource type="CapsuleShape2D" id=4]
 radius = 28.2512
 
 [sub_resource type="Animation" id=5]
@@ -36,7 +102,7 @@ tracks/0/keys = {
 "values": [ 6, 7 ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=6]
 resource_name = "Dash"
 length = 0.1
 tracks/0/type = "value"
@@ -52,8 +118,7 @@ tracks/0/keys = {
 "values": [ 9 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "Idle"
+[sub_resource type="Animation" id=7]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -68,7 +133,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 3, 4 ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=8]
 resource_name = "MaxCharge"
 length = 0.4
 loop = true
@@ -85,8 +150,7 @@ tracks/0/keys = {
 "values": [ 16, 15 ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "Slice"
+[sub_resource type="Animation" id=9]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -102,8 +166,7 @@ tracks/0/keys = {
 "values": [ 8 ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "Walk"
+[sub_resource type="Animation" id=10]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -118,39 +181,123 @@ tracks/0/keys = {
 "values": [ 10, 11, 12, 13 ]
 }
 
+[sub_resource type="GDScript" id=11]
+script/source = "extends Node2D
+
+# Declare member variables here. Examples:
+# var a: int = 2
+# var b: String = \"text\"
+onready var kin_head = $KinematicHead
+onready var kin_body = $KinematicBody
+onready var head : Sprite = $KinematicHead/Head
+onready var body : Sprite = $KinematicBody/Body
+onready var sound : AudioStream = load(\"res://Sounds/Gore.wav\")
+var head_velocity := Vector2(0, 0)
+var timer = 0
+var duration = 0.6
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	randomize()
+	head.visible = false
+	body.visible = false
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if timer < duration:
+		head_velocity =  kin_head.move_and_slide(head_velocity)
+		if head_velocity.length() > 0:
+			timer += delta
+			head.rotate(deg2rad(360 * 5 * delta))
+#	pass
+func explode():
+	Globals.cam.shake()
+	var audio = AudioStreamPlayer.new()
+	audio.stream = sound
+	add_child(audio)
+	audio.play()
+	head.visible = true
+	body.visible = true
+	head_velocity = Vector2(rand_range(-1, 1), rand_range(-1, 1)).normalized() * 300
+	kin_body.rotate(deg2rad(-90))
+	pass
+	
+func set_atlas(atlas):
+	head.texture.atlas = atlas.duplicate(true)
+	body.texture.atlas = atlas.duplicate(true)
+"
+
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 2
 script = ExtResource( 1 )
+curve_charge_up = SubResource( 15 )
+
+[node name="AfterImage" type="CPUParticles2D" parent="."]
+position = Vector2( -0.135757, 4.42731 )
+emitting = false
+lifetime = 0.1
+local_coords = false
+texture = ExtResource( 2 )
+gravity = Vector2( 0, 0 )
+scale_amount = 2.0
+color_ramp = SubResource( 12 )
+
+[node name="Charge_Particles" type="CPUParticles2D" parent="."]
+position = Vector2( -0.291977, 27.992 )
+rotation = -1.57079
+z_index = 1
+emitting = false
+amount = 15
+lifetime = 4.0
+speed_scale = 3.0
+randomness = 1.0
+emission_shape = 2
+emission_rect_extents = Vector2( 30, 30 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 20.0
+angular_velocity = 720.0
+scale_amount = 4.5
+scale_amount_random = 0.5
+scale_amount_curve = SubResource( 14 )
+color_ramp = SubResource( 13 )
+hue_variation = 1.0
 
 [node name="Shadow" type="Sprite" parent="."]
 position = Vector2( 0.203903, 48 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
+
+[node name="ShadowAnimationPlayer" type="AnimationPlayer" parent="Shadow"]
+anims/Bounce = SubResource( 16 )
+anims/BounceCharging = SubResource( 17 )
+anims/Idle = SubResource( 18 )
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 2, 2 )
-texture = SubResource( 4 )
+texture = SubResource( 1 )
 vframes = 4
 hframes = 5
-frame = 15
+frame = 7
 region_rect = Rect2( 48, 48, 0, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.611725, 4.68986 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Aim" type="Position2D" parent="."]
 
 [node name="Arrow" type="Sprite" parent="Aim"]
 position = Vector2( 60.3564, 2.44688 )
 scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="DamageArea" type="Area2D" parent="Aim/Arrow"]
 collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Aim/Arrow/DamageArea"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="GetHitArea" type="Area2D" parent="."]
 editor/display_folded = true
@@ -159,18 +306,26 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GetHitArea"]
 position = Vector2( 0.815628, 3.87423 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 3.0
 anims/Charge = SubResource( 5 )
-anims/Dash = SubResource( 10 )
-anims/Idle = SubResource( 6 )
-anims/MaxCharge = SubResource( 9 )
-anims/Slice = SubResource( 8 )
-anims/Walk = SubResource( 7 )
+anims/Dash = SubResource( 6 )
+anims/Idle = SubResource( 7 )
+anims/MaxCharge = SubResource( 8 )
+anims/Slice = SubResource( 9 )
+anims/Walk = SubResource( 10 )
 
-[node name="DeadBody" parent="." instance=ExtResource( 5 )]
+[node name="DeadBody" parent="." instance=ExtResource( 6 )]
 scale = Vector2( 2, 2 )
+script = SubResource( 11 )
+
+[node name="SliceYell" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+
+[node name="Swoosh" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = 0.7
 
 [connection signal="body_entered" from="Aim/Arrow/DamageArea" to="." method="_on_DamageArea_body_entered"]

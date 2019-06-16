@@ -1,0 +1,162 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scripts/Level.gd" type="Script" id=1]
+[ext_resource path="res://Arena.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Textures/sheet_ninja_blue.png" type="Texture" id=4]
+[ext_resource path="res://Textures/sheet_ninja_red.png" type="Texture" id=5]
+[ext_resource path="res://Sounds/Soundtracks/soundtrack_ninja.wav" type="AudioStream" id=6]
+[ext_resource path="res://SawBladeTrap.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Timer321Go.tscn" type="PackedScene" id=8]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 240, 192 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 240, 192 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "MoveSawBlades"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("SawBladeTrap5:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 825.814, 175.54 ), Vector2( 510.025, 135.651 ), Vector2( 825.814, 175.54 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SawBladeTrap5:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SawBladeTrap2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 200.756, 431.219 ), Vector2( 515.437, 473.324 ), Vector2( 200.756, 431.219 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SawBladeTrap2:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SawBladeTrap3:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 511.005, 135.651 ), Vector2( 212.944, 179.972 ), Vector2( 511.005, 135.651 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("SawBladeTrap3:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("SawBladeTrap4:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 512.241, 475.54 ), Vector2( 828.031, 430.111 ), Vector2( 512.241, 475.54 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("SawBladeTrap4:rotation_degrees")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0 ]
+}
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Arena" parent="." instance=ExtResource( 2 )]
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 140, 296.759 )
+atlas = SubResource( 1 )
+
+[node name="Player2" parent="." instance=ExtResource( 3 )]
+editor/display_folded = true
+position = Vector2( 870, 269.502 )
+player_index = 2
+atlas = SubResource( 2 )
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -7.0
+
+[node name="SawBladeTrap2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 200.756, 431.219 )
+scale = Vector2( 3.5, 3.5 )
+
+[node name="SawBladeTrap3" parent="." instance=ExtResource( 7 )]
+position = Vector2( 511.005, 135.651 )
+scale = Vector2( 3.5, 3.5 )
+
+[node name="SawBladeTrap4" parent="." instance=ExtResource( 7 )]
+position = Vector2( 512.241, 475.54 )
+scale = Vector2( 3.5, 3.5 )
+
+[node name="SawBladeTrap5" parent="." instance=ExtResource( 7 )]
+position = Vector2( 825.814, 175.54 )
+scale = Vector2( 3.5, 3.5 )
+
+[node name="Timer321Go" parent="." instance=ExtResource( 8 )]
+position = Vector2( 515.77, 304.543 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "MoveSawBlades"
+playback_speed = 0.5
+anims/MoveSawBlades = SubResource( 3 )
+

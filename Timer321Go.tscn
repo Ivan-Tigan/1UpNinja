@@ -1,0 +1,105 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scripts/Timer321Go.gd" type="Script" id=1]
+[ext_resource path="res://Textures/numbers.png" type="Texture" id=2]
+[ext_resource path="res://Sounds/BellDing.wav" type="AudioStream" id=3]
+[ext_resource path="res://Sounds/GongSound.wav" type="AudioStream" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 2000, 2400 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Countdown"
+length = 4.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2, 1.2, 2.2, 3.2, 4.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 30, 60, 89, 117 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 4.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "go"
+} ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("AudioDing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.15, 1.1, 1.15, 2.1, 2.15, 3.2, 4.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [  ],
+"method": "stop"
+}, {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [  ],
+"method": "stop"
+}, {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [  ],
+"method": "stop"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AudioDing:stream")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1.8025, 1 ),
+"update": 1,
+"values": [ ExtResource( 3 ), ExtResource( 4 ) ]
+}
+
+[node name="Timer321Go" type="StaticBody2D"]
+z_index = 3
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.6, 0.6 )
+texture = SubResource( 1 )
+vframes = 12
+hframes = 10
+frame = 117
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Countdown = SubResource( 2 )
+
+[node name="AudioDing" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = 0.8
+pitch_scale = 1.2
+
